@@ -219,12 +219,6 @@ class boss_sisters_of_the_moon : public CreatureScript
         {
             boss_sisters_of_the_moon_AI(Creature* creature) : BossAI(creature, DATA_SISTERS_OF_THE_MOON)
             {
-                creature->GetInstanceScript();
-
-                Creature* kasparian = instance->GetCreature(NPC_HUNTRESS_KASPARIAN);
-                Creature* yathae = instance->GetCreature(NPC_CAPTAIN_YATHAE_MOONSTRIKE);
-                Creature* lunaspyre = instance->GetCreature(NPC_PRIESTESS_LUNASPYRE);
-
                 if (instance)
                 {
                     EncounterState bossState = instance->GetBossState(DATA_SISTERS_OF_THE_MOON);
@@ -534,7 +528,8 @@ class boss_sisters_of_the_moon : public CreatureScript
                         break;
 
                         case EVENT_GLAIVE_STORM:
-                            // TODO
+                            DoCastAOE(SPELL_GLAIVE_STORM);
+                            events.Repeat(30s);
                         break;
 
                         case EVENT_KASPARIAN_JUST_DIED:
@@ -617,7 +612,8 @@ class boss_sisters_of_the_moon : public CreatureScript
                             break;
 
                         case EVENT_EMBRACE_OF_THE_ECLIPSE:
-                            // TODO
+                            DoCast(me, SPELL_EMBRACE_OF_THE_ECLIPSE_BOSS);
+                            events.Repeat(45s);
                             break;
 
                         case EVENT_LUNASPYRE_JUST_DIED:

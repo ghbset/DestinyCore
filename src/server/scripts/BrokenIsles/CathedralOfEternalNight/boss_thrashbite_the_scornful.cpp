@@ -79,7 +79,9 @@ public:
             //  me->AddDelayedEvent(3000, [this] () -> void
              // {
             bool canVisible = false;
-            if (Creature* gazzerax = instance->instance->GetCreature(instance->GetGuidData(NPC_GAZERAX)))
+            if (!instance || !instance->instance)
+                canVisible = true;
+            else if (Creature* gazzerax = instance->instance->GetCreature(instance->GetGuidData(NPC_GAZERAX)))
             {
                 if (!gazzerax->IsAlive())
                     canVisible = true;

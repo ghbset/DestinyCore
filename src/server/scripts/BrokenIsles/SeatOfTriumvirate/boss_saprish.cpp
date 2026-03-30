@@ -77,6 +77,7 @@ struct boss_saprish : public BossAI
         {
             events.Repeat(40s);
             DoCastSelf(SPELL_DD_TARGET);
+            break;
         }
         }
     }

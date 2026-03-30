@@ -332,7 +332,7 @@ public:
                     if (urand(1, 4) == 1)
                         me->SetFacingTo(frand(0, 2 * float(M_PI)));
                 }
-                //else
+                else
                 {
                     DoCast(SPELL_FOUND_MEPHISTROTH);
                     DoCast(SPELL_CONVERSATION_FOUND);

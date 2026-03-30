@@ -49,12 +49,12 @@ struct boss_ashgolm : public BossAI
     {
         //me->Yell(97634);
   
-        events.ScheduleEvent(SPELL_FISSURE, 5000);
-        events.ScheduleEvent(SPELL_LAVA_WREATH, 5000);
-        events.ScheduleEvent(SPELL_PYROCLAST, 5000);
+        events.ScheduleEvent(SPELL_FISSURE, 6s);
+        events.ScheduleEvent(SPELL_LAVA_WREATH, 15s);
+        events.ScheduleEvent(SPELL_PYROCLAST, 10s);
 
         if (IsHeroic() || IsMythic() || IsChallengeMode())
-            events.ScheduleEvent(SPELL_SMOLDERING, 120000);
+            events.ScheduleEvent(SPELL_SMOLDERING, 20s);
             
     }
 
@@ -65,25 +65,25 @@ struct boss_ashgolm : public BossAI
         case SPELL_FISSURE:
         {
             DoCast(SPELL_FISSURE);
-            events.Repeat(10s);
+            events.Repeat(18s);
             break;
         }
         case SPELL_LAVA_WREATH:
         {
             DoCast(SPELL_LAVA_WREATH);
-            events.Repeat(10s);
+            events.Repeat(25s);
             break;
         }
         case SPELL_PYROCLAST:
         {
             DoCast(SPELL_PYROCLAST);
-            events.Repeat(10s);
+            events.Repeat(15s);
             break;
         }
         case SPELL_SMOLDERING:
         {
             DoCast(SPELL_SMOLDERING);
-            events.Repeat(10s);
+            events.Repeat(30s);
             break;
         }
         default:

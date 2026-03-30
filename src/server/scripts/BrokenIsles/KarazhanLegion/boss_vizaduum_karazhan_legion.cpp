@@ -959,7 +959,10 @@ class at_kara_demonic_portal : public AreaTriggerEntityScript
 
             void OnInitialize()
             {
-                at->GetCaster()->GetInstanceScript()->GetCreature(DATA_VIZADUUM)->GetMotionMaster()->MovePoint(POINT_DEMONIC_PORTAL, at->GetPosition());
+                if (Unit* caster = at->GetCaster())
+                    if (InstanceScript* instance = caster->GetInstanceScript())
+                        if (Creature* vizaduum = instance->GetCreature(DATA_VIZADUUM))
+                            vizaduum->GetMotionMaster()->MovePoint(POINT_DEMONIC_PORTAL, at->GetPosition());
             }
 
             void OnUnitEnter(Unit* target) override
@@ -1019,8 +1022,14 @@ class at_kara_fel_flames : public AreaTriggerEntityScript
 
             void OnCreate()
             {
-                at->GetCaster()->_UnregisterAreaTrigger(at);
-                at->GetCaster()->GetInstanceScript()->GetCreature(DATA_VIZADUUM)->_RegisterAreaTrigger(at);
+                Unit* caster = at->GetCaster();
+                if (!caster)
+                    return;
+
+                caster->_UnregisterAreaTrigger(at);
+                if (InstanceScript* instance = caster->GetInstanceScript())
+                    if (Creature* vizaduum = instance->GetCreature(DATA_VIZADUUM))
+                        vizaduum->_RegisterAreaTrigger(at);
             }
 
             void OnUnitEnter(Unit* target) override

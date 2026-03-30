@@ -95,12 +95,15 @@ public:
             phase = 0;
             me->SetPower(POWER_ENERGY, 0);
 
-            if (Creature* egida = instance->instance->GetCreature(instance->GetGuidData(NPC_EGIDA_START)))
+            if (instance && instance->instance)
             {
-                instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, egida);
+                if (Creature* egida = instance->instance->GetCreature(instance->GetGuidData(NPC_EGIDA_START)))
+                {
+                    instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, egida);
 
-                egida->RemoveAurasDueToSpell(SPELL_EGIDA_DISPLAY_BAR);
-                egida->RemoveAurasDueToSpell(SPELL_EGIDA_AT);
+                    egida->RemoveAurasDueToSpell(SPELL_EGIDA_DISPLAY_BAR);
+                    egida->RemoveAurasDueToSpell(SPELL_EGIDA_AT);
+                }
             }
 
             me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC | UNIT_FLAG_NOT_SELECTABLE);
@@ -119,16 +122,17 @@ public:
             events.RescheduleEvent(EVENT_FELSOUL_CLEAVE, 8000);
             events.RescheduleEvent(EVENT_CHAOTIC_ENERGY, 1000);
 
-            if (Creature* egida = instance->instance->GetCreature(instance->GetGuidData(NPC_EGIDA_START)))
-            {
-                instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, egida);
+            if (instance && instance->instance)
+                if (Creature* egida = instance->instance->GetCreature(instance->GetGuidData(NPC_EGIDA_START)))
+                {
+                    instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, egida);
 
-                egida->CastSpell(egida, SPELL_EGIDA_DISPLAY_BAR);
-                egida->GetScheduler().Schedule(Milliseconds(1000), [egida](TaskContext context)
-                    {
-                        egida->CastSpell(egida, SPELL_EGIDA_AT);
-                    });
-            }
+                    egida->CastSpell(egida, SPELL_EGIDA_DISPLAY_BAR);
+                    egida->GetScheduler().Schedule(Milliseconds(1000), [egida](TaskContext context)
+                        {
+                            egida->CastSpell(egida, SPELL_EGIDA_AT);
+                        });
+                }
 
         }
 
@@ -206,16 +210,17 @@ public:
             Talk(SAY_DEATH);
             _JustDied();
 
-            if (Creature* egida = instance->instance->GetCreature(instance->GetGuidData(NPC_EGIDA_START)))
-            {
-                instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, egida);
+            if (instance && instance->instance)
+                if (Creature* egida = instance->instance->GetCreature(instance->GetGuidData(NPC_EGIDA_START)))
+                {
+                    instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, egida);
 
-                egida->RemoveAurasDueToSpell(SPELL_EGIDA_DISPLAY_BAR);
-                egida->RemoveAurasDueToSpell(SPELL_EGIDA_AT);
+                    egida->RemoveAurasDueToSpell(SPELL_EGIDA_DISPLAY_BAR);
+                    egida->RemoveAurasDueToSpell(SPELL_EGIDA_AT);
 
-                me->CastSpell(egida, SPELL_OUTRO, true);
-                egida->CastSpell(egida, SPELL_EGIDA_OUTRO);
-                egida->DespawnOrUnsummon(3000);
+                    me->CastSpell(egida, SPELL_OUTRO, true);
+                    egida->CastSpell(egida, SPELL_EGIDA_OUTRO);
+                    egida->DespawnOrUnsummon(3000);
 
                 // egida->SummonCreature(NPC_EGIDA_GIVE_BUFF, egida->GetPositionX() + frand(-3, 3), egida->GetPositionY() + frand(-3, 3), egida->GetPositionZ(), egida->GetOrientation());
             }
